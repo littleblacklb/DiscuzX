@@ -234,6 +234,7 @@ function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecac
 					}
 					$filename = DISCUZ_ROOT.$stylearray['directory'].'/portal/diyxml/'.$data['filename'];
 					import_diy_file($stylearray['directory'], $filename, $data['tplname'], $data['tplname']);
+					updatecache('diytemplatename');
 				}
 			}
 
