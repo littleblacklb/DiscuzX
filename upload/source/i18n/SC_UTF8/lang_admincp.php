@@ -1445,6 +1445,53 @@ $lang =
 	'setting_home_hotuser_defaultpoke' => '默认打招呼内容',
 	'setting_home_hotuser_defaultpoke_comment' => '(不要超过25个汉字)设置自动好友向新人打招呼的内容',
 
+	'setting_weixinshare' => '微信分享',
+	'setting_weixinshare_tips' => '<li>启用后，用户在微信内访问站点时，点击右上角“···”菜单的发送给朋友 / 分享到朋友圈将使用此处配置的标题、描述与缩略图</li>
+<li>AppID / AppSecret 可留空，留空时自动复用“第三方登录 -> 微信(服务号)”中已配置的公众号凭据</li>
+<li>必须到微信公众平台“设置 -> 公众号设置 -> 功能设置”中把本站域名加入“JS接口安全域名”</li>
+<li>分享接口需要已认证的公众号（订阅号需微信认证）权限</li>',
+	'setting_weixinshare_basic' => '基本设置',
+	'setting_weixinshare_enable' => '启用微信分享',
+	'setting_weixinshare_enable_comment' => '开启后，在微信浏览器内访问站点会自动注入微信 JS-SDK 分享脚本',
+	'setting_weixinshare_appid' => '微信 AppID',
+	'setting_weixinshare_appid_comment' => '留空则复用“账号 -> 微信”中的 AppID',
+	'setting_weixinshare_appsecret' => '微信 AppSecret',
+	'setting_weixinshare_appsecret_comment' => '留空则复用“账号 -> 微信”中的 AppSecret',
+	'setting_weixinshare_title' => '默认分享标题',
+	'setting_weixinshare_title_comment' => '留空时使用站点名称',
+	'setting_weixinshare_desc' => '默认分享描述',
+	'setting_weixinshare_img' => '默认分享缩略图',
+	'setting_weixinshare_img_comment' => '图片地址（建议 300x300 以上，留空则不带缩略图）',
+	'setting_weixinshare_link' => '默认分享链接',
+	'setting_weixinshare_link_comment' => '留空时使用当前页面地址',
+	'setting_weixinshare_debug' => 'JS-SDK 调试模式',
+	'setting_weixinshare_debug_comment' => '开启后微信内会输出 config 校验信息，仅用于排查问题',
+
+	'setting_pwa_tips' => '<li>PWA（Progressive Web App）能让用户把论坛“安装”到手机或电脑桌面，像原生应用一样全屏打开，并支持离线缓存已访问内容</li>
+<li>兼容性：Android Chrome/Edge 体验最佳；桌面端 Chrome/Edge/Firefox/Safari 均可安装；iOS/iPadOS 需 16.4 以上且需手动“添加到主屏幕”，旧版 Safari 不支持</li>
+<li>开启后会在站点根目录下生成一个 pwa.js 文件，如未发现请自行检查目录权限或从 data/cache/ 目录下复制到站点根目录</li>',
+	'setting_pwa_basic' => '基础配置',
+	'setting_pwa_enable' => '启用 PWA',
+	'setting_pwa_enable_comment' => '开启后，站点将注入 manifest 与 Service Worker；关闭则前端不输出任何 PWA 相关标签与脚本',
+	'setting_pwa_name' => '应用名称',
+	'setting_pwa_name_comment' => '安装到桌面或应用列表后显示的完整名称，建议与站点名称保持一致',
+	'setting_pwa_short_name' => '应用短名称',
+	'setting_pwa_short_name_comment' => '图标下方或空间不足时显示的简短名称，建议 2-4 个汉字',
+	'setting_pwa_description' => '应用描述',
+	'setting_pwa_description_comment' => '安装弹窗或应用管理中可能展示的一句话描述，简要说明站点用途',
+	'setting_pwa_background_color' => '启动背景色',
+	'setting_pwa_background_color_comment' => '应用启动瞬间（首屏渲染前）的背景色，用于避免闪白，建议与页面主背景色一致',
+	'setting_pwa_theme_color' => '主题色',
+	'setting_pwa_theme_color_comment' => '浏览器工具栏、任务切换卡片等系统 UI 的着色，建议与站点导航栏主色相协调',
+	'setting_pwa_logo_512' => '512×512 图标',
+	'setting_pwa_logo_512_comment' => '安装弹窗、启动画面和高分辨率设备使用的主图标。建议上传透明或带安全边距的 PNG，可与其他尺寸图标保持统一风格',
+	'setting_pwa_logo_192' => '192×192 图标',
+	'setting_pwa_logo_192_comment' => 'Android/Chrome 桌面快捷方式和低分辨率设备使用。单独上传可避免系统自动缩放导致的模糊',
+	'setting_pwa_logo_180' => '180×180 Apple 触摸图标',
+	'setting_pwa_logo_180_comment' => 'iOS/iPadOS“添加到主屏幕”时使用的图标。iOS 会对图标自动裁剪圆角，建议主体居中、四周留白',
+	'setting_pwa_logo_32' => '32×32 浏览器图标',
+	'setting_pwa_logo_32_comment' => '浏览器标签页、收藏夹和地址栏小图标。可单独设计以适配小尺寸展示',
+
 	'setting_domain' => '域名设置',
 	'setting_domain_base' => '基本设置',
 	'setting_domain_base_tips' => "<li>保留二级域名设置后所有人都无法申请或使用该域名</li><li>个人空间、圈子的二级域名开启后需要到<strong>根域名设置</strong>中设置<strong>{$_G['setting']['navs'][3]['navname']}、{$_G['setting']['navs'][4]['navname']}</strong>的根域名</li>",
@@ -5883,6 +5930,10 @@ $lang =
 	'plugins_list_available' => '已启用的插件',
 	'plugins_list_unavailable' => '未启用的插件',
 	'plugins_list_new' => '未安装的插件',
+	'plugins_hooklist' => '嵌入点列表',
+	'plugins_hooklist_tips' => '<li>本功能用于浏览目前所有已启用的嵌入点，您可以在相应的输入框中调整显示顺序，数字越小越靠前。</li>',
+	'plugins_hooktype_hookscript' => 'PC',
+	'plugins_hooktype_hookscriptmobile' => 'Mobile',
 
 	'medals' => '勋章',
 	'medals_tips' => '<li>本功能用于设置可以颁发给用户的勋章信息，勋章图片中请填写图片文件名，并将相应图片文件上传到 static/image/common/ 目录中或直接填写图片 URL 地址。</li>',
@@ -7902,8 +7953,6 @@ url.rewrite-once = (
 	'setting_attach_remote_oss_rootpath_comment' => '请填写 OSS 存储的路径，默认为空表示根目录，其他路径请以“/”结尾',
 	'setting_attach_remote_oss_avatar' => '用户头像上传至 OSS',
 	'setting_attach_remote_oss_avatar_comment' => '开启后用户的头像将上传至 OSS 而不是 UCenter 中',
-
-	'setting_ftp_remote_-200' => 'OSS 参数错误连接失败',
 
 	'account' => '第三方登录',
 	'account_base' => '基本设置',

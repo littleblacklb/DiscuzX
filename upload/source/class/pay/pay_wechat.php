@@ -581,7 +581,7 @@ class pay_wechat extends pay_base {
 
 	private function wechat_device() {
 		$useragent = $_SERVER['HTTP_USER_AGENT'];
-		if(str_contains($useragent, 'MicroMessenger')) {
+		if(weixin::in_event()) {
 			return 'wechat';
 		} else {
 			return checkmobile();

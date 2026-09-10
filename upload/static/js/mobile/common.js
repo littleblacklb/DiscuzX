@@ -1472,3 +1472,48 @@ function zerofill(s) {
 
 	window.initAllSortSel = initAllSortSel;
 })();
+
+if ((andriod && !ios) && typeof PWAON != 'undefined' && PWAON == 1 && 'serviceWorker' in navigator) {
+
+	const STACK_KEY = "pwa_route_stack";
+	const originalBack = history.back;
+
+	function getStack() {
+		const str = localStorage.getItem(STACK_KEY);
+		return str ? JSON.parse(str) : [];
+	}
+
+	function saveStack(stack) {
+		localStorage.setItem(STACK_KEY, JSON.stringify(stack));
+	}
+
+	function recordCurrentUrl() {
+		const stack = getStack();
+		const current = location.href;
+		if (stack.length === 0 || stack[stack.length - 1] !== current) {
+			stack.push(current);
+			if(stack.length > 10) stack.shift();
+			saveStack(stack);
+		}
+	}
+
+	window.addEventListener("load", recordCurrentUrl);
+
+	history.back = function () {
+		const stack = getStack();
+
+		if (stack.length > 1) {
+			stack.pop();
+			saveStack(stack);
+			const prevUrl = stack[stack.length - 1];
+			location.href = prevUrl;
+		} else {
+			location.href = SITEURL;
+		}
+	}
+
+	window.addEventListener("popstate", function () {
+		history.back();
+	});
+
+}

@@ -768,5 +768,8 @@ $lang = [
 	'qrcodelogin_bind_succeed' => '账号绑定成功',
 	'qrcodelogin_update_succeed' => '更新成功',
 	'qrcodelogin_closed' => '站长尚未启用此功能',
+
+	'setting_pwa_logo_error' => 'PWA 图标上传失败，请检查文件必须是指定尺寸的正方形 PNG 格式图片',
+	'setting_pwa_upload_error' => 'PWA 图标上传失败',
 ];
 
