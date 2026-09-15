@@ -1340,6 +1340,18 @@ $lang =
 	'setting_home_base_recycle_bin' => '开启日志回收站',
 	'setting_home_base_recycle_bin_comment' => '打开此功能后，所有被删除日志将被放在回收站中，而不会被直接删除',
 
+	'setting_doing' => '记录设置',
+	'setting_doing_imgmaxnum' => '记录图片最大数量',
+	'setting_doing_imgmaxnum_comment' => '(默认为 9)发布记录时最多允许上传的图片张数，超出后用户无法继续添加图片',
+	'setting_doing_imgmaxsize' => '记录图片最大尺寸(KB)',
+	'setting_doing_imgmaxsize_comment' => '(默认为 2048，即 2MB)单张记录图片允许上传的最大文件尺寸，单位 KB',
+	'setting_doing_videoallow' => '允许上传视频',
+	'setting_doing_videoallow_comment' => '开启后，发布记录时可上传 1 个视频；关闭后用户无法上传视频',
+	'setting_doing_videomaxsize' => '记录视频最大尺寸(MB)',
+	'setting_doing_videomaxsize_comment' => '(默认为 50)单个记录视频允许上传的最大文件尺寸，单位 MB',
+	'setting_doing_videoext' => '记录视频允许的后缀',
+	'setting_doing_videoext_comment' => '多个后缀之间用半角逗号 "," 隔开，默认为 mp4,webm,mov',
+
 	'setting_home_base_networkpage' => '成员排行榜允许分页浏览',
 	'setting_home_base_networkpage_comment' => '该设置只对排行榜中的竞价排行、在线成员、全部成员有效',
 	'setting_home_base_topcachetime' => '成员排行榜缓存时间(单位：分钟)',
