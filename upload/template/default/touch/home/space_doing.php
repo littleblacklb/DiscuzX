@@ -25,6 +25,12 @@
 <script type="text/javascript">
 	initdhnav("#dhnav_li");
 </script>
+<!--{if $_G['uid'] && helper_access::check_module('doing')}-->
+<!-- 微博式顶部内嵌发布框：登录用户直接在当前页发布记录 -->
+<div class="doing_quickpost">
+	<!--{template home/space_doing_form}-->
+</div>
+<!--{/if}-->
 <script type="text/javascript">
 // DPlayer 资源加载状态（移动端 common.js 无 html5Player，需自行加载）
 // 注意：必须定义在记录列表之前，视频项的内联脚本在解析时就会调用

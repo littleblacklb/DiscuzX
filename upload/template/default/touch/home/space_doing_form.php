@@ -20,41 +20,41 @@
 			<!--{if !$type}-->
 			<div class="specialpost s_clear">
 				<li class="doing-toolrow">
-					<a href="<!--{if $_G['setting']['defaultforumid']}-->forum.php?mod=post&action=newthread&fid={$_G['setting']['defaultforumid']}&adddynamic_doing=1<!--{else}-->forum.php?mod=misc&action=nav<!--{/if}-->" class="doing-tool-item" id="moodfm_thread"><i class="fico-thread"></i><span>{lang follow_new_thread}</span></a>
+					<a href="javascript:;" class="doing-tool-item doing-tool-media" id="moodfm_pic" title="{lang upload_new_pic}"><i class="fico-image"></i></a>
+					<!--{if $doing_videoallow}-->
+					<a href="javascript:;" class="doing-tool-item doing-tool-media" id="moodfm_video" title="{lang doing_upload_video}"><i class="fico-camera"></i></a>
+					<!--{/if}-->
+					<a href="<!--{if $_G['setting']['defaultforumid']}-->forum.php?mod=post&action=newthread&fid={$_G['setting']['defaultforumid']}&adddynamic_doing=1<!--{else}-->forum.php?mod=misc&action=nav<!--{/if}-->" class="doing-tool-item" id="moodfm_thread" title="{lang follow_new_thread}"><i class="fico-thread"></i></a>
 					<!--{if $_G['setting']['pollforumid']}-->
-					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['pollforumid']}&special=1&adddynamic_doing=1" class="doing-tool-item" id="moodfm_poll"><i class="fico-assessment"></i><span>{lang create_new_poll}</span></a>
+					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['pollforumid']}&special=1&adddynamic_doing=1" class="doing-tool-item" id="moodfm_poll" title="{lang create_new_poll}"><i class="fico-assessment"></i></a>
 					<!--{/if}-->
 					<!--{if $_G['setting']['tradeforumid']}-->
-					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['tradeforumid']}&special=2&adddynamic_doing=1" class="doing-tool-item" id="moodfm_trade"><i class="fico-cart"></i><span>{lang create_new_trade}</span></a>
+					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['tradeforumid']}&special=2&adddynamic_doing=1" class="doing-tool-item" id="moodfm_trade" title="{lang create_new_trade}"><i class="fico-cart"></i></a>
 					<!--{/if}-->
 					<!--{if $_G['setting']['rewardforumid']}-->
-					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['rewardforumid']}&special=3&adddynamic_doing=1" class="doing-tool-item" id="moodfm_reward"><i class="fico-help"></i><span>{lang publish_new_reward}</span></a>
+					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['rewardforumid']}&special=3&adddynamic_doing=1" class="doing-tool-item" id="moodfm_reward" title="{lang publish_new_reward}"><i class="fico-help"></i></a>
 					<!--{/if}-->
 					<!--{if $_G['setting']['activityforumid']}-->
-					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['activityforumid']}&special=4&adddynamic_doing=1" class="doing-tool-item" id="moodfm_activity"><i class="fico-interactive"></i><span>{lang create_new_activity}</span></a>
+					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['activityforumid']}&special=4&adddynamic_doing=1" class="doing-tool-item" id="moodfm_activity" title="{lang create_new_activity}"><i class="fico-interactive"></i></a>
 					<!--{/if}-->
 					<!--{if $_G['setting']['debateforumid']}-->
-					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['debateforumid']}&special=5&adddynamic_doing=1" class="doing-tool-item" id="moodfm_debate"><i class="fico-vs"></i><span>{lang create_new_debate}</span></a>
+					<a href="forum.php?mod=post&action=newthread&fid={$_G['setting']['debateforumid']}&special=5&adddynamic_doing=1" class="doing-tool-item" id="moodfm_debate" title="{lang create_new_debate}"><i class="fico-vs"></i></a>
 					<!--{/if}-->
 				</li>
-				<li class="upload-main">
-					<div class="image-main" id="MultiPicList">
+				<!-- 已选媒体预览区：选中图片/视频后显示 -->
+				<li class="upload-main" id="MultiPicList" style="display:none;">
+					<div class="image-main">
 						<div id="mp_counter"></div>
-						<div id="multipic_img">
-							<div id="multipic_btn" class="image-list image-upload image-upload-mp">
-								<div class="file_pic"></div>
-								<input name="photos[]" type="file" class="file" id="multipic_sel" multiple="multiple"
-								       accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,image/jpeg,image/png">
-							</div>
-							<!--{if $doing_videoallow}-->
-							<div id="video_btn" class="image-list image-upload image-upload-mp">
-								<div class="file_pic"></div>
-								<span class="video-btn-text">{lang doing_upload_video}</span>
-								<input name="video" type="file" class="file" id="video_sel" accept="$doing_videoaccept">
-							</div>
-							<!--{/if}-->
-						</div>
+						<div id="multipic_img"></div>
 					</div>
+				</li>
+				<!-- 隐藏的文件选择框：由工具行中的图片/视频入口触发 -->
+				<li id="mp_hidden_inputs" style="display:none;">
+					<input name="photos[]" type="file" class="file" id="multipic_sel" multiple="multiple"
+					       accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,image/jpeg,image/png">
+					<!--{if $doing_videoallow}-->
+					<input name="video" type="file" class="file" id="video_sel" accept="$doing_videoaccept">
+					<!--{/if}-->
 				</li>
 			</div>
 			<!--{else}-->
@@ -84,7 +84,6 @@
 <script type="text/javascript" reload="1">
 	<!--{if !$type}-->
 	var mpimgmax = {$doing_imgmaxnum};
-	var mpimgmax_low = mpimgmax - 1;
 	var mpimgmaxsize = {$doing_imgmaxsize} * 1024;
 	var mpvideomaxsize = {$doing_videomaxsize} * 1048576;
 	var mpvideoexts = '{$doing_videoext}';
@@ -102,8 +101,22 @@
 	function listenup() {
 		if (typeof FileReader === 'undefined') {
 		} else {
+			// 工具行入口：点击图片/视频按钮触发对应的隐藏文件选择框（对齐电脑端交互）
+			var moodPicBtn = document.getElementById('moodfm_pic');
+			var fileInput = document.getElementById('multipic_sel');
+			if (moodPicBtn && fileInput) {
+				moodPicBtn.addEventListener('click', function(e) {
+					e.preventDefault();
+					fileInput.click();
+				});
+			}
+			var moodVideoBtn = document.getElementById('moodfm_video');
 			var videoInput = document.getElementById('video_sel');
-			if (videoInput) {
+			if (moodVideoBtn && videoInput) {
+				moodVideoBtn.addEventListener('click', function(e) {
+					e.preventDefault();
+					videoInput.click();
+				});
 				videoInput.addEventListener('change', function(event) {
 					const file = event.target.files && event.target.files[0];
 					if (!file) {
@@ -122,7 +135,15 @@
 						resetVideoInput();
 						return;
 					}
-					document.getElementById('video_btn').style.display = 'none';
+					// 视频限一个：重复选择时替换旧预览
+					const oldPreview = document.getElementById('video_preview_item');
+					if (oldPreview) {
+						oldPreview.remove();
+					}
+					const multiPicList = document.getElementById('MultiPicList');
+					if (multiPicList) {
+						multiPicList.style.display = '';
+					}
 					const preview = document.createElement('div');
 					preview.className = 'previewvideo z';
 					preview.id = 'video_preview_item';
@@ -133,7 +154,7 @@
 					vthumb.src = URL.createObjectURL(file);
 					vthumb.style.width = '100%';
 					vthumb.style.height = '100%';
-					vthumb.style.objectFit = 'contain';
+					vthumb.style.objectFit = 'cover';
 					// 截取视频首帧作为封面，提交时随表单传给服务端保存为「附件名.thumb.jpg」
 					vthumb.addEventListener('loadedmetadata', function() {
 						try {
@@ -176,11 +197,14 @@
 					preview.append(vthumb);
 					preview.append(badge);
 					preview.append(removeDiv);
-					document.getElementById('multipic_img').append(preview);
+					// 视频预览与图片缩略图同尺寸，且始终排在图片列表最前面
+					const imgContainer = document.getElementById('multipic_img');
+					imgContainer.insertBefore(preview, imgContainer.firstChild);
 				});
 			}
 			document.getElementById('multipic_sel').addEventListener('change', function(event) {
 				const imgContainer = document.getElementById('multipic_img');
+				const multiPicList = document.getElementById('MultiPicList');
 				const input = event.target;
 				const files = input.files;
 
@@ -214,7 +238,9 @@
 					}
 					input.files = dt.files;
 				}
-
+				if (accepted.length > 0 && multiPicList) {
+					multiPicList.style.display = '';
+				}
 				for (let k = 0; k < accepted.length; k++) {
 					(function(currentFile, index) {
 						const reader = new FileReader();
@@ -243,23 +269,16 @@
 						reader.readAsDataURL(currentFile);
 					})(accepted[k], k);
 				}
-				document.getElementById("multipic_sel").style.display = "none";
-				document.getElementById("multipic_sel").removeAttribute("id");
-				const newbtn = document.createElement('input');
-				newbtn.type = 'file';
-				newbtn.name = 'photos[]';
-				newbtn.id = 'multipic_sel';
-				newbtn.className = "file";
-				newbtn.multiple = "multiple";
-				newbtn.accept = ".jpg,.jpeg,.png,.gif,.webp,.bmp,image/jpeg,image/png";
-				document.getElementById('multipic_btn').append(newbtn);
+				// 选择完成后立刻替换一个新的空 file input（隐藏容器内），以便继续选择
+				const oldInput = document.getElementById('multipic_sel');
+				if (oldInput) {
+					const newInput = oldInput.cloneNode(true);
+					newInput.value = '';
+					oldInput.parentNode.replaceChild(newInput, oldInput);
+				}
 				listenup();
 			});
 		}
-	}
-
-	if (MultiPicUploaded >= mpimgmax_low) {
-		document.querySelector('.image-upload-mp').style.display = 'none';
 	}
 
 	function updateMpCounter() {
@@ -286,14 +305,20 @@
 		if (posterInput) {
 			posterInput.value = '';
 		}
+		// 视频移除且没有图片时，隐藏整个预览区
+		if (MultiPicUploaded <= 0) {
+			const multiPicList = document.getElementById('MultiPicList');
+			if (multiPicList) {
+				multiPicList.style.display = 'none';
+			}
+		}
 		const oldInput = document.getElementById('video_sel');
 		if (oldInput) {
 			const newInput = oldInput.cloneNode(true);
 			newInput.value = '';
 			oldInput.parentNode.replaceChild(newInput, oldInput);
+			listenup();
 		}
-		document.getElementById('video_btn').style.display = '';
-		listenup();
 	}
 
 	function MultiPicDel(obj) {
@@ -302,8 +327,15 @@
 		MultiPicUploaded--;
 		obj.parentNode.remove();
 		updateMpCounter();
-		if (MultiPicUploaded < mpimgmax) {
-			document.querySelector('.image-upload-mp').style.display = '';
+
+		if (MultiPicUploaded <= 0) {
+			MultiPicUploaded = 0;
+			// 图片删光且无视频预览时，隐藏整个预览区
+			const videoItem = document.getElementById('video_preview_item');
+			const multiPicList = document.getElementById('MultiPicList');
+			if (!videoItem && multiPicList) {
+				multiPicList.style.display = 'none';
+			}
 		}
 	}
 

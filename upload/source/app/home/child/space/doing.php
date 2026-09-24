@@ -229,4 +229,11 @@ if($_G['uid'] != $space['uid'] && $space['username']) {
 }
 $metakeywords = $navtitle;
 $metadescription = $navtitle;
+
+// 移动端列表页顶部内嵌发布框（微博式）所需的模板变量初始化
+$type = '';
+$id = 0;
+$topicid = 0;
+$commentcable = [];
+
 include_once template('diy:home/space_doing');

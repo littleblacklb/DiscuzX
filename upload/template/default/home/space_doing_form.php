@@ -73,13 +73,7 @@
 				</div>
 			</div>
 			<!--{if $doing_videoallow}-->
-			<div class="image-main" id="VideoBox" style="display:none;">
-				<div id="video_preview"></div>
-				<div id="video_btn" class="image-list image-upload image-upload-video">
-					<div class="file_pic"></div>
-					<input name="video" type="file" class="file" id="video_sel" accept="$doing_videoaccept">
-				</div>
-			</div>
+			<input name="video" type="file" id="video_sel" style="display:none;" accept="$doing_videoaccept">
 			<!--{/if}-->
 			<!--{else}-->
 			<ul id="share_preview" class="el mtm cl 1">
@@ -180,70 +174,70 @@
 						resetVideoInput();
 						return;
 					}
-					const box = document.getElementById('VideoBox');
-					const preview = document.getElementById('video_preview');
-					if (box && preview) {
-						box.style.display = '';
-						preview.innerHTML = '';
-						const wrapper = document.createElement('div');
-						wrapper.className = 'previewvideo z';
-						const vthumb = document.createElement('video');
-						vthumb.muted = true;
-						vthumb.playsInline = true;
-						vthumb.preload = 'metadata';
-						vthumb.src = URL.createObjectURL(file);
-						vthumb.style.width = '100%';
-						vthumb.style.height = '100%';
-						vthumb.style.objectFit = 'contain';
-						// 截取视频首帧作为封面，提交时随表单传给服务端保存为「附件名.thumb.jpg」
-						vthumb.addEventListener('loadedmetadata', function() {
-							try {
-								vthumb.currentTime = Math.min(1, (vthumb.duration || 2) * 0.1);
-							} catch (e) {}
-						});
-						vthumb.addEventListener('seeked', function() {
-							try {
-								const cv = document.createElement('canvas');
-								const vw = vthumb.videoWidth || 1280;
-								const vh = vthumb.videoHeight || 720;
-								const scale = Math.min(1, 720 / vw);
-								cv.width = Math.round(vw * scale);
-								cv.height = Math.round(vh * scale);
-								cv.getContext('2d').drawImage(vthumb, 0, 0, cv.width, cv.height);
-								const posterInput = document.getElementById('videoposter');
-								if (posterInput) {
-									posterInput.value = cv.toDataURL('image/jpeg', 0.72);
-								}
-							} catch (e) {}
-						}, {once: true});
-						const nameDiv = document.createElement('div');
-						nameDiv.style.cssText = 'position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);color:#fff;font-size:12px;line-height:18px;padding:2px 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
-						nameDiv.innerHTML = file.name;
-						const badge = document.createElement('div');
-						badge.className = 'video_play_badge';
-						const removeDiv = document.createElement('div');
-						removeDiv.className = 'flbc';
-						removeDiv.onclick = function(e) {
-							e.stopPropagation();
-							resetVideoInput();
-						};
-						wrapper.onclick = function() {
-							if (vthumb.paused) {
-								vthumb.muted = false;
-								vthumb.setAttribute('controls', 'controls');
-								vthumb.play();
-								wrapper.classList.add('playing');
-							} else {
-								vthumb.pause();
-							}
-						};
-						wrapper.append(vthumb);
-						wrapper.append(badge);
-						wrapper.append(nameDiv);
-						wrapper.append(removeDiv);
-						preview.append(wrapper);
-						document.getElementById('video_btn').style.display = 'none';
+					// 视频限一个：重复选择时替换旧预览；与图片缩略图同尺寸，始终排在图片列表最前面
+					const oldPreview = document.getElementById('video_preview_item');
+					if (oldPreview) {
+						oldPreview.remove();
 					}
+					const multiPicList = document.getElementById('MultiPicList');
+					if (multiPicList && multiPicList.style.display === 'none') {
+						multiPicList.style.display = '';
+					}
+					const wrapper = document.createElement('div');
+					wrapper.className = 'previewvideo z';
+					wrapper.id = 'video_preview_item';
+					const vthumb = document.createElement('video');
+					vthumb.muted = true;
+					vthumb.playsInline = true;
+					vthumb.preload = 'metadata';
+					vthumb.src = URL.createObjectURL(file);
+					vthumb.style.width = '100%';
+					vthumb.style.height = '100%';
+					vthumb.style.objectFit = 'cover';
+					// 截取视频首帧作为封面，提交时随表单传给服务端保存为「附件名.thumb.jpg」
+					vthumb.addEventListener('loadedmetadata', function() {
+						try {
+							vthumb.currentTime = Math.min(1, (vthumb.duration || 2) * 0.1);
+						} catch (e) {}
+					});
+					vthumb.addEventListener('seeked', function() {
+						try {
+							const cv = document.createElement('canvas');
+							const vw = vthumb.videoWidth || 1280;
+							const vh = vthumb.videoHeight || 720;
+							const scale = Math.min(1, 720 / vw);
+							cv.width = Math.round(vw * scale);
+							cv.height = Math.round(vh * scale);
+							cv.getContext('2d').drawImage(vthumb, 0, 0, cv.width, cv.height);
+							const posterInput = document.getElementById('videoposter');
+							if (posterInput) {
+								posterInput.value = cv.toDataURL('image/jpeg', 0.72);
+							}
+						} catch (e) {}
+					}, {once: true});
+					const badge = document.createElement('div');
+					badge.className = 'video_play_badge';
+					const removeDiv = document.createElement('div');
+					removeDiv.className = 'flbc';
+					removeDiv.onclick = function(e) {
+						e.stopPropagation();
+						resetVideoInput();
+					};
+					wrapper.onclick = function() {
+						if (vthumb.paused) {
+							vthumb.muted = false;
+							vthumb.setAttribute('controls', 'controls');
+							vthumb.play();
+							wrapper.classList.add('playing');
+						} else {
+							vthumb.pause();
+						}
+					};
+					wrapper.append(vthumb);
+					wrapper.append(badge);
+					wrapper.append(removeDiv);
+					const imgContainer = document.getElementById('multipic_img');
+					imgContainer.insertBefore(wrapper, imgContainer.firstChild);
 				});
 			}
 			document.getElementById('multipic_sel').addEventListener('change', function(event) {
@@ -326,21 +320,20 @@
 	}
 
 	function resetVideoInput() {
-		const box = document.getElementById('VideoBox');
-		const preview = document.getElementById('video_preview');
-		const btn = document.getElementById('video_btn');
+		const item = document.getElementById('video_preview_item');
+		if (item) {
+			item.remove();
+		}
 		const posterInput = document.getElementById('videoposter');
 		if (posterInput) {
 			posterInput.value = '';
 		}
-		if (preview) {
-			preview.innerHTML = '';
-		}
-		if (box) {
-			box.style.display = 'none';
-		}
-		if (btn) {
-			btn.style.display = '';
+		// 视频移除且没有图片时，隐藏整个预览区
+		if (MultiPicUploaded <= 0) {
+			const multiPicList = document.getElementById('MultiPicList');
+			if (multiPicList) {
+				multiPicList.style.display = 'none';
+			}
 		}
 		const oldInput = document.getElementById('video_sel');
 		if (oldInput) {
@@ -390,8 +383,11 @@
 			document.querySelector('.image-upload-mp').style.display = '';
 		}
 		if (MultiPicUploaded <= 0) {
-			document.getElementById('MultiPicList').style.display = 'none';
 			MultiPicUploaded = 0;
+			// 图片删光且无视频预览时，隐藏整个预览区
+			if (!document.getElementById('video_preview_item')) {
+				document.getElementById('MultiPicList').style.display = 'none';
+			}
 		}
 	}
 
