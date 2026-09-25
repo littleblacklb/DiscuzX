@@ -11,10 +11,5 @@ $data = [[
     'name' => '預設模板套系',
     'directory' => './template/default',
     'copyright' => 'Discuz!',
-  ],[
-    'templateid' => '2',
-    'name' => 'X5模版',
-    'directory' => './template/discuzx5',
-    'copyright' => 'Discuz!',
   ],
 ];

@@ -413,6 +413,9 @@ $lang = [
 	'finish_btn_cloudaddon' => '安装插件模板',
 	'finish_btn_direct' => '直接访问站点',
 
+	'finish_btn_install_style_x5' => '全新论坛模式',
+	'finish_btn_install_style_blog' => '进入博客模式',
+
 	'upgrade_confirm' => '
 	<ul style="font-size: 14px;line-height: 30px;list-style-type: decimal;padding-left: 20px;">
 	<li>确保您的旧版本 Discuz! 必须为 X3.5 版本，如不满足版本要求请先升级到此版本；</li>

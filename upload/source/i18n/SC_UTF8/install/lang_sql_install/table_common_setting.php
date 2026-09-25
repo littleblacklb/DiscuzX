@@ -1850,7 +1850,7 @@ discuz',
 	'svalue' => '0',
 ], [
 	'skey' => 'styleid',
-	'svalue' => '2',
+	'svalue' => '1',
 ], [
 	'skey' => 'styleid1',
 	'svalue' => '1',

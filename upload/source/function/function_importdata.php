@@ -35,7 +35,7 @@ function import_smilies() {
 	return $renamed;
 }
 
-function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecache = 1, $validate = 1, $returnonly = 0) {
+function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecache = 1, $validate = 1, $returnonly = 0, $setdefault = 0) {
 	global $_G, $importtxt, $stylearray;
 	if(empty($dir)) {
 		$stylearrays = [getimportdata('Discuz! Style')];
@@ -238,6 +238,10 @@ function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecac
 				}
 			}
 
+			if($setdefault) {
+				$stylearray['setting']['styleid'] = $styleidnew;
+			}
+
 			if(!empty($stylearray['setting'])) {
 				table_common_setting::t()->update_batch($stylearray['setting']);
 			}
@@ -251,8 +255,7 @@ function import_styles($ignoreversion = 1, $dir = '', $restoreid = 0, $updatecac
 	}
 
 	if($updatecache) {
-		updatecache('styles');
-		updatecache('setting');
+		updatecache(['setting', 'styles']);
 	}
 	return $renamed;
 }
