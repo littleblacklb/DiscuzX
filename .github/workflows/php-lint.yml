@@ -1,0 +1,74 @@
+name: PHP Lint
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: php-lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Oldest and newest supported runtimes: enough to catch syntax that is
+        # valid on one end of the PHP 8 range but not the other.
+        php: [ '8.0', '8.4' ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Resolve base ref
+        id: base
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "ref=origin/${{ github.base_ref }}" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ github.event.before }}" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            echo "ref=${{ github.event.before }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=HEAD~1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Lint changed PHP files
+        shell: bash
+        run: |
+          BASE='${{ steps.base.outputs.ref }}'
+          if ! DIFF=$(git diff --name-only --diff-filter=ACMR "$BASE"...HEAD -- '*.php'); then
+            echo "::error::git diff against '$BASE' failed"
+            exit 1
+          fi
+          FILES=()
+          [ -z "$DIFF" ] || mapfile -t FILES <<< "$DIFF"
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "No PHP files changed."
+            exit 0
+          fi
+          echo "Linting ${#FILES[@]} file(s) with PHP $(php -r 'echo PHP_VERSION;')"
+          fail=0
+          for f in "${FILES[@]}"; do
+            [ -f "$f" ] || continue
+            if ! out=$(php -l "$f" 2>&1); then
+              echo "::error file=$f::$(printf '%s\n' "$out" | head -n 1)"
+              printf '%s\n' "$out"
+              fail=1
+            fi
+          done
+          exit $fail
